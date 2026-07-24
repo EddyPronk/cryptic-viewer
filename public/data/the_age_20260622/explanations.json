@@ -1,0 +1,147 @@
+{
+  "across-01": {
+    "answer": "HARASSED",
+    "mechanism": "Insertion",
+    "explanation": "<div><b>Definition:</b> when hounded</div>\n<ul><li>hared → HARED</li><li>HARED containing ASS (around) → HARASSED</li><li>HARASSED→ HARASSED (8)</li><li>Verify: HARASSED is wordplay for WHEN HOUNDED</li></ul>\n"
+  },
+  "across-06": {
+    "answer": "FOURTH",
+    "mechanism": "Homophone",
+    "explanation": "<div><b>Definition:</b> come just short of a medal</div>\n<div><b>Indicator:</b> noisily</div>\n<ul><li>said aloud, &#x27;forth&#x27; sounds like FOURTH — same pronunciation, different spelling.</li></ul>\n"
+  },
+  "across-09": {
+    "answer": "ESTATE",
+    "mechanism": "Deletion",
+    "explanation": "<div><b>Definition:</b> property</div>\n<div><b>Indicator:</b> excluded</div>\n<ul><li>&#x27;excluded&#x27; instructs removing &#x27;IM&#x27; from &#x27;ESTIMATE&#x27;.</li><li>ESTIMATE - IM = ESTATE, the unique 6-letter dictionary fit.</li></ul>\n"
+  },
+  "across-10": {
+    "answer": "SORBONNE",
+    "mechanism": "French charade",
+    "explanation": "<div><b>Indicator:</b> France/French/Paris</div>\n<ul><li>french-charade (parser): SORBONNE (def &#x27;University&#x27;)</li></ul>\n"
+  },
+  "across-11": {
+    "answer": "FANG",
+    "mechanism": "Hollow word",
+    "explanation": "<div><b>Definition:</b> canine</div>\n<div><b>Indicator:</b> gutless</div>\n<ul><li>&#x27;gutless&#x27; instructs removing the middle of &#x27;fawning&#x27;.</li><li>Removing one contiguous internal substring from &#x27;fawning&#x27; gives the unique 4-letter dictionary fit FANG.</li></ul>\n"
+  },
+  "across-12": {
+    "answer": "CHERRYPICK",
+    "mechanism": "Spoonerism",
+    "explanation": "<div><b>Definition:</b> Take the best bits</div>\n<div><b>Indicator:</b> Spooner</div>\n<ul><li>&#x27;perry chicken&#x27; is the Spoonerism fodder, flagged by a &#x27;Spooner&#x27;-class indicator.</li><li>Swapping the initial sounds gives &#x27;CHERRY PICK&#x27;.</li><li>Joined, &#x27;CHERRYPICK&#x27; = CHERRYPICK.</li><li>CHERRYPICK matches the definition &#x27;Take the best bits&#x27; and has 10 letters, matching the enumeration.</li></ul>\n"
+  },
+  "across-14": {
+    "answer": "THUMBSUP",
+    "mechanism": "Charade",
+    "explanation": "<div><b>Definition:</b> Go-ahead</div>\n<ul><li>a bit of a hand → THUMB</li><li>have supper → SUP</li><li>THUMB + SUP → THUMBSUP</li><li>THUMBSUP→ THUMBS-UP (6-2)</li><li>Verify: THUMBS-UP is wordplay for GO-AHEAD</li></ul>\n"
+  },
+  "across-16": {
+    "answer": "TOOT",
+    "mechanism": "Palindrome",
+    "explanation": "<ul><li>palindrome -&gt; TOOT (unique grid fit, no meaning check needed)</li></ul>\n"
+  },
+  "across-18": {
+    "answer": "GRIT",
+    "mechanism": "Hidden word",
+    "explanation": "<div><b>Definition:</b> courage</div>\n<div><b>Indicator:</b> some</div>\n<ul><li>GRIT is hidden in the clue&#x27;s letters, inside &#x27;integrity&#x27;.</li><li>WordNet confirms &#x27;courage&#x27; defines GRIT.</li></ul>\n"
+  },
+  "across-19": {
+    "answer": "CANNIEST",
+    "mechanism": "Unique grid fit",
+    "explanation": "<ul><li>unique grid fit: pattern C.N.I.S. (4 crossings) admits exactly one 8-letter dictionary word</li></ul>\n"
+  },
+  "across-21": {
+    "answer": "DISDAINFUL",
+    "mechanism": "Anagram",
+    "explanation": "<div><b>Definition:</b> dance full of contempt</div>\n<ul><li>there is no anagram indicator; the rearrangement is implicit (detected by letter count).</li><li>the letters of &#x27;ISFLUIDAND&#x27; rearrange to DISDAINFUL, the only 10-letter dictionary word with exactly those letters.</li></ul>\n"
+  },
+  "across-22": {
+    "answer": "RUNG",
+    "mechanism": "Double definition",
+    "explanation": "<div><b>Definition:</b> sounded like a bell</div>\n<ul><li>Part of the ladder → RUNG</li><li>sounded like a bell → RUNG</li><li>Both readings agree on RUNG (4).</li><li>Verify: RUNG is a double definition — both readings above independently point to the same word.</li></ul>\n"
+  },
+  "across-24": {
+    "answer": "MANDRILL",
+    "mechanism": "Charade",
+    "explanation": "<div><b>Definition:</b> a baboon</div>\n<ul><li>Watch fellow → MAN</li><li>practise → DRILL</li><li>MAN + DRILL → MANDRILL</li><li>MANDRILL→ MANDRILL (8)</li><li>Verify: MANDRILL is wordplay for A BABOON</li></ul>\n"
+  },
+  "across-26": {
+    "answer": "MOHAIR",
+    "mechanism": "Unique grid fit",
+    "explanation": "<ul><li>unique grid fit: pattern M.H... (2 crossings) admits exactly one 6-letter dictionary word</li></ul>\n"
+  },
+  "across-27": {
+    "answer": "KELPIE",
+    "mechanism": "Charade with named letters",
+    "explanation": "<ul><li>charade def_confirm fallback: KELP+IE -&gt; KELPIE; def &#x27;suitable for a sheepdog&#x27; (wordnet:sheepdog)</li></ul>\n"
+  },
+  "across-28": {
+    "answer": "YODELLER",
+    "mechanism": "Insertion",
+    "explanation": "<div><b>Definition:</b> Swiss singer</div>\n<ul><li>One who yells → YELLER</li><li>do (crazy) → OD</li><li>YELLER containing OD (about) → YODELLER</li><li>YODELLER→ YODELLER (8)</li><li>Verify: YODELLER is wordplay for SWISS SINGER</li></ul>\n"
+  },
+  "down-02": {
+    "answer": "ATSEA",
+    "mechanism": "Double definition",
+    "explanation": "<div><b>Definition:</b> on the Baltic?</div>\n<ul><li>Baffled → ATSEA</li><li>on the Baltic? → ATSEA</li><li>Both readings agree on ATSEA (2,3).</li><li>Verify: ATSEA is a double definition — both readings above independently point to the same word.</li></ul>\n"
+  },
+  "down-03": {
+    "answer": "AMALGAMATED",
+    "mechanism": "Anagram",
+    "explanation": "<div><b>Definition:</b> combined</div>\n<div><b>Indicator:</b> revolution</div>\n<ul><li>the letters of &#x27;DAMAGEMALTA&#x27; rearrange to AMALGAMATED, the only 11-letter dictionary word with exactly those letters.</li></ul>\n"
+  },
+  "down-04": {
+    "answer": "SEEDCASE",
+    "mechanism": "Homophone charade",
+    "explanation": "<ul><li>homophone-charade: &#x27;hand over&#x27;-&gt;(wordnet)-&gt;cede, sounds like SEED + &#x27;investigation&#x27;-&gt;CASE = SEEDCASE; def &#x27;pod&#x27;</li></ul>\n"
+  },
+  "down-05": {
+    "answer": "DISRESPECTFULLY",
+    "mechanism": "Anagram",
+    "explanation": "<div><b>Definition:</b> stuff could be viewed impolitely</div>\n<ul><li>there is no anagram indicator; the rearrangement is implicit (detected by letter count).</li><li>the letters of &#x27;SUSPECTEDFRILLY&#x27; rearrange to DISRESPECTFULLY, the only 15-letter dictionary word with exactly those letters.</li></ul>\n"
+  },
+  "down-06": {
+    "answer": "FARCRY",
+    "mechanism": "Charade phrase",
+    "explanation": "<ul><li>&#x27;long distance&#x27; gives &#x27;far&#x27;.</li><li>&#x27;call&#x27; gives &#x27;cry&#x27;.</li><li>Together they form the real phrase &#x27;FAR CRY&#x27;, matching the enumeration.</li></ul>\n"
+  },
+  "down-07": {
+    "answer": "UFO",
+    "mechanism": "Alternating letters",
+    "explanation": "<div><b>Definition:</b> flying saucer</div>\n<ul><li>BUFFOON → UFO (alternating letters)</li><li>UFO→ UFO (3)</li><li>Verify: UFO is wordplay for FLYING SAUCER</li></ul>\n"
+  },
+  "down-08": {
+    "answer": "TENACIOUS",
+    "mechanism": "Unique grid fit",
+    "explanation": "<ul><li>unique grid fit: pattern T.N.C.O.. (4 crossings) admits exactly one 9-letter dictionary word</li></ul>\n"
+  },
+  "down-13": {
+    "answer": "PATRIARCHAL",
+    "mechanism": "Anagram",
+    "explanation": "<div><b>Definition:</b> and into maledominance</div>\n<div><b>Indicator:</b> perverse</div>\n<ul><li>the letters of &#x27;ARCHPARTIAL&#x27; rearrange to PATRIARCHAL, the only 11-letter dictionary word with exactly those letters.</li></ul>\n"
+  },
+  "down-15": {
+    "answer": "HURRICANE",
+    "mechanism": "Whole-word homophone",
+    "explanation": "<div><b>Definition:</b> there&#x27;s a cyclone</div>\n<ul><li>HURRY + CANE → HURRICANE (homophone)</li><li>HURRICANE→ HURRICANE (9)</li><li>Verify: HURRICANE is a homophone for THERE&#x27;S A CYCLONE</li></ul>\n"
+  },
+  "down-17": {
+    "answer": "INFLAMED",
+    "mechanism": "Multiple definition",
+    "explanation": "<div><b>Definition:</b> red/sore/furious</div>\n<ul><li>the clue reads as 3 separate definitions of the same word: &#x27;red&#x27;, &#x27;sore&#x27;, &#x27;furious&#x27;.</li><li>INFLAMED is verified as matching ALL 3 definitions at once, in a single batched judgment (not 3 separate, weaker checks).</li><li>INFLAMED has 8 letters, matching the enumeration.</li></ul>\n"
+  },
+  "down-20": {
+    "answer": "LIAISE",
+    "mechanism": "Hidden word",
+    "explanation": "<ul><li>LIAISE is hidden in the clue&#x27;s letters, inside &#x27;Australia is eager&#x27;.</li></ul>\n"
+  },
+  "down-23": {
+    "answer": "NAIVE",
+    "mechanism": "Hollow word",
+    "explanation": "<div><b>Definition:</b> unsophisticated</div>\n<div><b>Indicator:</b> lacks</div>\n<ul><li>&#x27;lacks&#x27; instructs removing the middle of &#x27;narrative&#x27;.</li><li>Removing one contiguous internal substring from &#x27;narrative&#x27; gives the unique 5-letter dictionary fit NAIVE.</li></ul>\n"
+  },
+  "down-25": {
+    "answer": "DIP",
+    "mechanism": "Unique grid fit",
+    "explanation": "<ul><li>unique grid fit: pattern D.P (2 crossings) admits exactly one 3-letter dictionary word</li></ul>\n"
+  }
+}

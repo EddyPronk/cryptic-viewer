@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cryptic Crossword Viewer</title>
+<style>
+  :root {
+    --bg: #f4f2ec; --panel: #fffdf7; --ink: #22201b; --muted: #6b6558;
+    --line: #b9b2a3; --block: #2a2723; --hi: #ffe9a8; --hi2: #f6c85f;
+    --sel: #7bb0ff; --wrong: #e06c6c; --ok: #4c9d5a; --accent: #315b8c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#1b1a17; --panel:#242320; --ink:#ece8df; --muted:#9b9585;
+      --line:#4a463d; --block:#0d0c0a; --hi:#4a4326; --hi2:#7a6a2e;
+      --sel:#2f5c9c; --wrong:#8f3a3a; --ok:#3f7a4a; --accent:#8fb4e0;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--bg); color: var(--ink); padding: 18px; overflow-x: hidden;
+  }
+  h1 { font-size: 19px; margin: 0 0 2px; }
+  .sub { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
+  select, button {
+    font: inherit; padding: 6px 11px; border: 1px solid var(--line);
+    background: var(--panel); color: var(--ink); border-radius: 6px; cursor: pointer;
+  }
+  button:hover { border-color: var(--accent); }
+  .layout { display: flex; flex-wrap: wrap; gap: 26px; align-items: flex-start; }
+  .gridwrap { flex: 0 0 auto; position: sticky; top: 8px; align-self: flex-start;
+    z-index: 2; background: var(--bg); }
+  #grid {
+    display: grid; grid-template-columns: repeat(15, var(--cell, 34px));
+    grid-template-rows: repeat(15, var(--cell, 34px));
+    gap: 1px; background: var(--line); border: 2px solid var(--block); width: max-content;
+  }
+  .cell { position: relative; background: var(--panel); }
+  .cell.block { background: var(--block); box-shadow: 0 0 0 1px var(--block); z-index: 1; }
+  .cell input {
+    width: 100%; height: 100%; border: 0; text-align: center; text-transform: uppercase;
+    font-size: calc(var(--cell, 34px) * 0.52); font-weight: 600; background: transparent;
+    color: var(--ink); caret-color: transparent; padding: 0;
+  }
+  .cell input:focus { outline: none; }
+  .cell.hi { background: var(--hi); }
+  .cell.sel { background: var(--hi2); }
+  .cell.wrong input { color: var(--wrong); }
+  .cell .num {
+    position: absolute; top: 1px; left: 2px; font-size: calc(var(--cell,34px)*0.26);
+    line-height: 1; color: var(--muted); pointer-events: none; font-weight: 500;
+  }
+  .clues { flex: 1 1 300px; min-width: 260px; max-height: calc(100vh - 120px);
+    overflow-y: auto; overflow-x: hidden; display: flex; gap: 26px; flex-wrap: wrap; }
+  .col { flex: 1 1 260px; min-width: 240px; }
+  .col h2 { font-size: 14px; text-transform: uppercase; letter-spacing: .06em;
+    color: var(--muted); border-bottom: 1px solid var(--line); padding-bottom: 4px; margin: 0 0 6px; }
+  .clue { display: flex; gap: 8px; padding: 5px 6px; border-radius: 6px; cursor: pointer; align-items: baseline; }
+  .clue:hover { background: var(--panel); }
+  .clue.active { background: var(--hi); }
+  .clue .n { font-weight: 700; min-width: 30px; text-align: right; color: var(--accent); }
+  .clue .t { flex: 1; }
+  .clue .reveal { visibility: hidden; font-size: 12px; padding: 2px 7px; }
+  .clue:hover .reveal, .clue.active .reveal { visibility: visible; }
+  .expl {
+    margin-top: 4px; padding: 8px 10px; background: var(--panel); border-left: 3px solid var(--accent);
+    border-radius: 4px; font-size: 13px; color: var(--muted); display: none; white-space: pre-wrap;
+  }
+  .expl.html { white-space: normal; }
+  .clue.revealed .expl.has { display: block; }
+  .expl b { color: var(--ink); }
+  .expl ul { margin: 0; padding-left: 20px; }
+  .legend { font-size: 12px; color: var(--muted); margin-top: 10px; }
+  @media (max-width: 600px) {
+    body { padding: 8px; }
+    .layout { gap: 12px; }
+    .gridwrap { min-width: 0; max-width: 100%; }
+    .clues { max-height: calc(100vh - 110px); }
+    .clue .expl { width: calc(100vw - 28px); margin-left: -40px; }
+  }
+</style>
+</head>
+<body>
+  <h1>Cryptic Crossword Viewer</h1>
+  <div class="sub" id="sub"></div>
+  <div class="toolbar">
+    <select id="puzzle"></select>
+    <button id="revealAll">Reveal all</button>
+  </div>
+  <div class="layout">
+    <div class="gridwrap"><div id="grid"></div>
+      <div class="legend">Click a cell or clue to select · click again to switch across/down · type to fill · arrows to move</div>
+    </div>
+    <div class="clues">
+      <div class="col"><h2>Across</h2><div id="across"></div></div>
+      <div class="col"><h2>Down</h2><div id="down"></div></div>
+    </div>
+  </div>
+
+<script>
+/* ---- data source ---- (contract documented in DATA_FORMAT.md)
+   Preferred: a self-contained export the producer writes under public/, indexed
+   by data/manifest.json, each puzzle a dir of grid/clues/solution/explanations
+   .json. This is what GitHub Pages serves — no path escapes public/.
+   Fallback: if data/manifest.json is absent, read today's live puzzles-ng/ tree
+   (up two levels to the repo root) with per-file explanation/<slot>.md. Lets the
+   viewer keep working before the producer has exported anything.
+   Requires serving over http:// (fetch() is blocked under file://). */
+const EXPORT_BASE = "data/";   // producer's export, relative to public/ (preferred)
+const LEGACY_BASE = "../../";  // repo root, relative to public/ (fallback source)
+let BASE = LEGACY_BASE;        // chosen at init() by whether manifest.json exists
+
+// Fallback puzzle list, used only when data/manifest.json is absent.
+// dir is relative to BASE; explanations: does this dir carry explanations.
+const REGISTRY = [
+  { name: "the_age_20260622", label: "The Age — 22 Jun 2026",
+    dir: "puzzles-ng/the_age_20260622", explanations: true },
+  { name: "the_age_20260119", label: "The Age — 19 Jan 2026",
+    dir: "puzzles-ng/the_age_20260119", explanations: true },
+  { name: "the_age_20251222", label: "The Age — 22 Dec 2025",
+    dir: "puzzles-ng/the_age_20251222", explanations: false },
+];
+
+/* ---- engine ---- */
+const $ = s => document.querySelector(s);
+const N = 15;
+let P, cells, runs, clueList, sel = null, showExpl = false, allRevealSnapshot = null;
+
+function isOpen(g, r, c) { return r>=0 && r<N && c>=0 && c<N && g[r][c] !== 99; }
+
+function buildRuns(g) {
+  const acrossByNum = {}, downByNum = {};
+  for (let r=0; r<N; r++) for (let c=0; c<N; c++) {
+    if (g[r][c] === 99) continue;
+    const num = g[r][c] > 0 && g[r][c] !== 99 ? g[r][c] : 0;
+    if (num) {
+      if (!isOpen(g,r,c-1) && isOpen(g,r,c+1)) {
+        const run = []; let cc=c; while (isOpen(g,r,cc)) { run.push([r,cc]); cc++; }
+        acrossByNum[num] = run;
+      }
+      if (!isOpen(g,r-1,c) && isOpen(g,r+1,c)) {
+        const run = []; let rr=r; while (isOpen(g,rr,c)) { run.push([rr,c]); rr++; }
+        downByNum[num] = run;
+      }
+    }
+  }
+  return { across: acrossByNum, down: downByNum };
+}
+
+function buildClues() {
+  clueList = [];
+  for (const dir of ["across","down"]) {
+    for (const cl of P.clues[dir]) {
+      const nums = String(cl.number).split(",").map(s=>parseInt(s,10));
+      let cellsList = [];
+      for (const n of nums) {
+        const run = runs[dir][n];
+        if (run) cellsList = cellsList.concat(run);
+      }
+      clueList.push({ id: (dir==="across"?"A":"D")+nums[0], dir, nums, label: String(cl.number),
+        text: cl.clue, cells: cellsList,
+        slot: dir + "-" + String(nums[0]).padStart(2,"0"),  // explanation filename stem
+        expl: null, explHtml: false });
+    }
+  }
+}
+
+function key(r,c){ return r+"-"+c; }
+
+function renderGrid() {
+  const g = P.grid, grid = $("#grid");
+  grid.innerHTML = ""; cells = {};
+  fitGrid();
+  for (let r=0; r<N; r++) for (let c=0; c<N; c++) {
+    const div = document.createElement("div");
+    div.className = "cell";
+    if (g[r][c] === 99) { div.classList.add("block"); grid.appendChild(div); continue; }
+    const num = g[r][c] > 0 && g[r][c] !== 99 ? g[r][c] : 0;
+    if (num) { const nd = document.createElement("span"); nd.className="num"; nd.textContent=num; div.appendChild(nd); }
+    const inp = document.createElement("input");
+    inp.maxLength = 1; inp.dataset.r = r; inp.dataset.c = c; inp.autocomplete = "off";
+    // TODO: Re-enable crossword data entry when the viewer interaction is ready.
+    inp.readOnly = true;
+    inp.inputMode = "none";
+    inp.addEventListener("focus", () => onFocus(r,c));
+    inp.addEventListener("click", () => onClick(r,c));
+    inp.addEventListener("keydown", onKey);
+    inp.addEventListener("input", onInput);
+    div.appendChild(inp);
+    cells[key(r,c)] = { div, inp, r, c };
+    grid.appendChild(div);
+  }
+}
+
+function fitGrid() {
+  const grid = $("#grid");
+  if (!grid) return;
+  // Reserve room for page padding, borders, toolbar, and the legend.
+  const usableWidth = document.documentElement.clientWidth - 16;
+  const usableHeight = window.innerHeight - 180;
+  const usable = Math.min(usableWidth, usableHeight, 540);
+  const cell = Math.max(12, Math.floor((Math.max(180, usable) - 18) / 15));
+  grid.style.setProperty("--cell", cell + "px");
+}
+
+function cluesAt(r,c) {
+  return clueList.filter(cl => cl.cells.some(([rr,cc]) => rr===r && cc===c));
+}
+
+function onFocus(r,c) {
+  const here = cluesAt(r,c);
+  if (!here.length) return;
+  const downStart = here.find(cl =>
+    cl.dir === "down" && cl.cells[0][0] === r && cl.cells[0][1] === c);
+  if (downStart && (!sel || !here.includes(sel) || sel.dir !== "down")) {
+    sel = downStart;
+  } else if (!sel || !here.includes(sel)) {
+    sel = here[0];
+  }
+  paint();
+  scrollToClue(sel);
+}
+function onClick(r,c) {
+  const here = cluesAt(r,c);
+  const downStart = here.find(cl =>
+    cl.dir === "down" && cl.cells[0][0] === r && cl.cells[0][1] === c);
+  if (downStart && (!sel || !here.includes(sel) || sel.dir !== "down")) {
+    sel = downStart;
+  } else if (here.length > 1 && sel && here.includes(sel)) {
+    sel = here[(here.indexOf(sel)+1) % here.length];
+  } else if (here.length) {
+    if (!here.includes(sel)) sel = here[0];
+  }
+  paint();
+  scrollToClue(sel);
+}
+
+function scrollToClue(cl) {
+  if (!cl) return;
+  requestAnimationFrame(() => {
+    const pane = document.querySelector(".clues");
+    const clue = document.getElementById(cl.id);
+    if (!pane || !clue) return;
+    const paneBox = pane.getBoundingClientRect();
+    const clueBox = clue.getBoundingClientRect();
+    const offset = clueBox.top - paneBox.top;
+    const target = pane.scrollTop + offset - (pane.clientHeight - clue.offsetHeight) / 2;
+    pane.scrollTo({ top: Math.max(0, target), behavior: "smooth" });
+    if (window.innerWidth <= 600) {
+      const gridwrap = document.querySelector(".gridwrap");
+      const margin = gridwrap ? gridwrap.getBoundingClientRect().height + 16 : 0;
+      clue.style.scrollMarginTop = margin + "px";
+      clue.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+    } else {
+      clue.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+    }
+  });
+}
+
+function selectClue(cl, focus = true) {
+  closeRevealedExplanations();
+  sel = cl;
+  if (focus) {
+    const [r,c] = cl.cells[0];
+    cells[key(r,c)].inp.focus();
+  }
+  paint();
+}
+
+function paint() {
+  document.querySelectorAll(".cell").forEach(d => d.classList.remove("hi","sel"));
+  document.querySelectorAll(".clue").forEach(d => d.classList.remove("active"));
+  if (!sel) return;
+  const active = document.activeElement;
+  const ar = active && active.dataset ? +active.dataset.r : null;
+  const ac = active && active.dataset ? +active.dataset.c : null;
+  for (const [r,c] of sel.cells) {
+    const cell = cells[key(r,c)];
+    if (!cell) continue;
+    cell.div.classList.add(r===ar && c===ac ? "sel" : "hi");
+  }
+  const el = document.getElementById(sel.id);
+  if (el) el.classList.add("active");
+}
+
+function step(r,c,dir,delta) {
+  const idx = sel ? sel.cells.findIndex(([rr,cc])=>rr===r&&cc===c) : -1;
+  if (sel && idx !== -1) {
+    const ni = idx + delta;
+    if (ni >= 0 && ni < sel.cells.length) return sel.cells[ni];
+  }
+  return null;
+}
+
+function onKey(e) {
+  const r = +e.target.dataset.r, c = +e.target.dataset.c;
+  if (e.key === "ArrowRight"||e.key==="ArrowLeft"||e.key==="ArrowUp"||e.key==="ArrowDown") {
+    e.preventDefault();
+    const map = {ArrowRight:[0,1],ArrowLeft:[0,-1],ArrowUp:[-1,0],ArrowDown:[1,0]};
+    let [dr,dc] = map[e.key]; let nr=r+dr, nc=c+dc;
+    while (nr>=0&&nr<N&&nc>=0&&nc<N) {
+      if (cells[key(nr,nc)]) { cells[key(nr,nc)].inp.focus(); return; }
+      nr+=dr; nc+=dc;
+    }
+    return;
+  }
+  if (e.key === "Backspace") {
+    if (e.target.value === "") {
+      const prev = step(r,c,sel&&sel.dir,-1);
+      if (prev) { const p = cells[key(prev[0],prev[1])]; p.inp.value=""; p.div.classList.remove("wrong"); p.inp.focus(); e.preventDefault(); }
+    } else {
+      e.target.parentElement.classList.remove("wrong");
+    }
+  }
+}
+
+function onInput(e) {
+  const r = +e.target.dataset.r, c = +e.target.dataset.c;
+  let v = e.target.value.toUpperCase().replace(/[^A-Z]/g,"");
+  e.target.value = v.slice(-1);
+  e.target.parentElement.classList.remove("wrong");
+  if (e.target.value) {
+    const nx = step(r,c,sel&&sel.dir,1);
+    if (nx) cells[key(nx[0],nx[1])].inp.focus();
+  }
+}
+
+function renderClues() {
+  for (const dir of ["across","down"]) {
+    const box = $("#"+dir); box.innerHTML = "";
+    for (const cl of clueList.filter(x=>x.dir===dir)) {
+      const div = document.createElement("div");
+      div.className = "clue"; div.id = cl.id;
+      const n = document.createElement("span"); n.className="n"; n.textContent=cl.label;
+      const t = document.createElement("span"); t.className="t"; t.textContent=cl.text;
+      const rev = document.createElement("button"); rev.className="reveal"; rev.textContent="reveal";
+      rev.addEventListener("click", ev => { ev.stopPropagation(); revealClue(cl); });
+      t.appendChild(document.createElement("br"));
+      const ex = document.createElement("div");
+      ex.className = "expl" + (cl.expl ? " has":"") + (cl.explHtml ? " html":"");
+      if (cl.expl) ex.innerHTML = cl.explHtml ? cl.expl : escapeHtml(cl.expl);
+      t.appendChild(ex);
+      div.appendChild(n); div.appendChild(t); div.appendChild(rev);
+      div.addEventListener("click", () => {
+        const clueEl = document.getElementById(cl.id);
+        const wasRevealed = clueEl && clueEl.classList.contains("revealed");
+        selectClue(cl, false);
+        if (allRevealSnapshot && clueEl && !wasRevealed) {
+          clueEl.classList.add("revealed");
+        }
+      });
+      box.appendChild(div);
+    }
+  }
+}
+
+function revealClue(cl) {
+  selectClue(cl, false);
+  cl.revealedValues = cl.cells.map(([r,c]) => cells[key(r,c)].inp.value);
+  for (let i = 0; i < cl.cells.length; i++) {
+    const [r,c] = cl.cells[i];
+    const cell = cells[key(r,c)];
+    cell.inp.value = P.solution[r][c];
+    cell.div.classList.remove("wrong");
+  }
+  const clueEl = document.getElementById(cl.id);
+  if (clueEl) clueEl.classList.add("revealed");
+}
+function toggleRevealAll() {
+  const button = $("#revealAll");
+  if (allRevealSnapshot) {
+    for (const k in cells) cells[k].inp.value = allRevealSnapshot[k];
+    allRevealSnapshot = null;
+    document.querySelectorAll(".clue.revealed").forEach(e => e.classList.remove("revealed"));
+    clueList.forEach(cl => delete cl.revealedValues);
+    setRevealButtonsDisabled(false);
+    if (button) button.textContent = "Reveal all";
+    return;
+  }
+  allRevealSnapshot = {};
+  for (const k in cells) {
+    allRevealSnapshot[k] = cells[k].inp.value;
+    const {inp,r,c,div} = cells[k];
+    inp.value = P.solution[r][c];
+    div.classList.remove("wrong");
+  }
+  if (sel) {
+    const selectedClue = document.getElementById(sel.id);
+    if (selectedClue) selectedClue.classList.add("revealed");
+  }
+  setRevealButtonsDisabled(true);
+  if (button) button.textContent = "Hide all";
+}
+
+function setRevealButtonsDisabled(disabled) {
+  document.querySelectorAll(".reveal").forEach(button => {
+    button.disabled = disabled;
+    button.hidden = disabled;
+  });
+}
+function clearAll() {
+  for (const k in cells) { cells[k].inp.value=""; cells[k].div.classList.remove("wrong"); }
+}
+function check() {
+  for (const k in cells) {
+    const {inp,r,c,div} = cells[k];
+    div.classList.remove("wrong");
+    if (inp.value && inp.value.toUpperCase() !== P.solution[r][c]) div.classList.add("wrong");
+  }
+}
+
+function parseExpl(md) {            // extract the labelled fields from an explanation .md
+  const get = k => { const m = md.match(new RegExp("^" + k + ":\\s*(.*)$", "m")); return m ? m[1].trim() : ""; };
+  const answer = get("Answer"), mech = get("Mechanism"),
+        def = get("Definition"), fod = get("Fodder"), exp = get("Explanation");
+  return [
+    [answer, mech].filter(Boolean).join(" · "),
+    def && "Definition: " + def,
+    fod && "Fodder: " + fod,
+    exp
+  ].filter(Boolean).join("\n");
+}
+
+function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function formatExpl(o) {           // structured explanation object -> display text
+  return [
+    o.answer ? "<b>" + escapeHtml(o.answer) + "</b>" +
+      (o.mechanism ? " · " + escapeHtml(o.mechanism) : "") :
+      (o.mechanism ? escapeHtml(o.mechanism) : ""),
+    o.definition && "Definition: " + escapeHtml(o.definition),
+    o.fodder && "Fodder: " + escapeHtml(o.fodder),
+    o.explanation
+  ].filter(Boolean).join("\n");
+}
+
+async function loadExplanations(base) {
+  // Preferred: one explanations.json for the whole puzzle (a single request).
+  try {
+    const r = await fetch(base + "explanations.json");
+    if (r.ok) {
+      const data = await r.json();
+      for (const cl of clueList) {
+        if (data[cl.slot]) {
+          cl.expl = formatExpl(data[cl.slot]);
+          cl.explHtml = true;
+          P.explanations[cl.id] = cl.expl;
+        }
+      }
+      return;
+    }
+  } catch (e) { /* fall through to legacy */ }
+  // Fallback: probe explanation/<slot>.md per clue (legacy puzzles-ng layout).
+  await Promise.all(clueList.map(async cl => {
+    try {
+      const r = await fetch(base + "explanation/" + cl.slot + ".md");
+      if (r.ok) { cl.expl = parseExpl(await r.text()); P.explanations[cl.id] = cl.expl; }
+    } catch (e) { /* explanation is optional */ }
+  }));
+}
+
+const asJson = r => { if (!r.ok) throw new Error(r.status + " " + r.url); return r.json(); };
+
+async function load(entry) {
+  const base = BASE + entry.dir + "/";
+  let grid, clues, solution;
+  try {
+    [grid, clues, solution] = await Promise.all([
+      fetch(base + "grid.json").then(asJson),
+      fetch(base + "clues.json").then(asJson),
+      fetch(base + "solution.json").then(asJson),
+    ]);
+  } catch (e) {
+    $("#sub").textContent = "Could not load " + entry.dir + " — " + e.message +
+      ". Serve over http:// (see VIEWER.md).";
+    $("#grid").innerHTML = ""; $("#across").innerHTML = ""; $("#down").innerHTML = "";
+    return;
+  }
+  P = { label: entry.label, grid, clues, solution, explanations: {} };
+  runs = buildRuns(P.grid);
+  buildClues();
+  if (entry.explanations) await loadExplanations(base);
+  renderGrid();
+  renderClues();
+  sel = null;
+  applyExpl();
+}
+
+function applyExpl() {
+  document.querySelectorAll(".expl.has").forEach(e => e.style.display = showExpl ? "block" : "");
+}
+
+function closeRevealedExplanations() {
+  if (allRevealSnapshot) {
+    // Reveal-all letters remain on the grid and reveal-all mode stays active.
+    document.querySelectorAll(".clue.revealed").forEach(e => e.classList.remove("revealed"));
+    return;
+  }
+  document.querySelectorAll(".clue.revealed").forEach(e => {
+    e.classList.remove("revealed");
+    const cl = clueList.find(item => item.id === e.id);
+    if (!cl || !cl.revealedValues) return;
+    cl.cells.forEach(([r,c], i) => {
+      cells[key(r,c)].inp.value = cl.revealedValues[i];
+    });
+    delete cl.revealedValues;
+  });
+}
+
+function handleGridClick() {
+  closeRevealedExplanations();
+  if (allRevealSnapshot && sel) {
+    const clue = document.getElementById(sel.id);
+    if (clue) clue.classList.add("revealed");
+  }
+}
+
+async function resolvePuzzles() {
+  // Prefer the producer's export (data/manifest.json under public/); if it's not
+  // there, fall back to the built-in REGISTRY reading the live puzzles-ng/ tree.
+  try {
+    const r = await fetch(EXPORT_BASE + "manifest.json");
+    if (r.ok) { BASE = EXPORT_BASE; return (await r.json()).puzzles; }
+  } catch (e) { /* no export yet */ }
+  BASE = LEGACY_BASE;
+  return REGISTRY;
+}
+
+async function init() {
+  $("#grid").addEventListener("click", handleGridClick);
+  $("#revealAll").addEventListener("click", toggleRevealAll);
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest(".clue") && !event.target.closest("#grid") &&
+        !event.target.closest("#revealAll")) {
+      closeRevealedExplanations();
+    }
+  });
+  window.addEventListener("resize", () => { fitGrid(); paint(); });
+
+  const puzzles = await resolvePuzzles();
+  const sel2 = $("#puzzle");
+  puzzles.forEach((entry, i) => {
+    const o = document.createElement("option"); o.value = i; o.textContent = entry.label; sel2.appendChild(o);
+  });
+  sel2.addEventListener("change", () => load(puzzles[+sel2.value]));
+  load(puzzles[0]);
+}
+init();
+</script>
+</body>
+</html>
