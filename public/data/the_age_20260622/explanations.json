@@ -46,8 +46,8 @@
   },
   "across-19": {
     "answer": "CANNIEST",
-    "mechanism": "Unique grid fit",
-    "explanation": "<ul><li>unique grid fit: pattern C.N.I.S. (4 crossings) admits exactly one 8-letter dictionary word</li></ul>\n"
+    "mechanism": "Charadeinsert",
+    "explanation": "<div><b>Definition:</b> The most astute</div>\n<ul><li>pass 1 (pass0.txt) produced definition_side=&#x27;start&#x27;.</li><li>pass 2 (fixture:charade_partition) produced definition=&#x27;The most astute&#x27;, wordplay=&#x27;are able to keep one in the nest&#x27;.</li><li>pass 4 (fixture:charade_piece_partition) produced piece_a_phrase=&#x27;are able&#x27;, piece_b_phrase=&#x27;keep one in the nest&#x27;.</li><li>pass 5 (pass2.txt) produced phrase=&#x27;are able&#x27;.</li><li>pass 6 (fixture:charade_insert_partition) produced container=&#x27;nest&#x27;, insert=&#x27;i&#x27;, indicator=&#x27;in&#x27;.</li><li>pass 10 (pass3.txt) produced validation=&#x27;yes&#x27;.</li><li>the chain&#x27;s answer field gave CANNIEST.</li></ul>\n"
   },
   "across-21": {
     "answer": "DISDAINFUL",
@@ -66,8 +66,8 @@
   },
   "across-26": {
     "answer": "MOHAIR",
-    "mechanism": "Unique grid fit",
-    "explanation": "<ul><li>unique grid fit: pattern M.H... (2 crossings) admits exactly one 6-letter dictionary word</li></ul>\n"
+    "mechanism": "Charade with named letters",
+    "explanation": "<ul><li>British slang charade: MO={&#x27;moustache&#x27;} + HAIR -&gt; MOHAIR</li></ul>\n"
   },
   "across-27": {
     "answer": "KELPIE",
@@ -111,8 +111,8 @@
   },
   "down-08": {
     "answer": "TENACIOUS",
-    "mechanism": "Unique grid fit",
-    "explanation": "<ul><li>unique grid fit: pattern T.N.C.O.. (4 crossings) admits exactly one 9-letter dictionary word</li></ul>\n"
+    "mechanism": "Leading-letter deletion charade",
+    "explanation": "<div><b>Definition:</b> Determined</div>\n<ul><li>pass 1 (fixture:leaders_lost_partition) produced definition=&#x27;Determined&#x27;, indicator=&#x27;leaders lost&#x27;.</li><li>the chain&#x27;s answer field gave TENACIOUS.</li></ul>\n"
   },
   "down-13": {
     "answer": "PATRIARCHAL",
@@ -141,7 +141,7 @@
   },
   "down-25": {
     "answer": "DIP",
-    "mechanism": "Unique grid fit",
-    "explanation": "<ul><li>unique grid fit: pattern D.P (2 crossings) admits exactly one 3-letter dictionary word</li></ul>\n"
+    "mechanism": "Implicit hidden word",
+    "explanation": "<div><b>Definition:</b> hummus?</div>\n<ul><li>DIP appears across clue-word boundaries in &#x27;didiputlidsonthehummus&#x27;.</li><li>The definition/category gate links DIP with &#x27;hummus?&#x27; via &#x27;condiment&#x27;.</li></ul>\n"
   }
 }

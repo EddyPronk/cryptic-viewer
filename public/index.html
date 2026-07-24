@@ -170,6 +170,19 @@ function buildClues() {
 
 function key(r,c){ return r+"-"+c; }
 
+function solutionAt(r, c) {
+  const row = P && P.solution ? P.solution[r] : null;
+  const value = Array.isArray(row) ? row[c] :
+    (typeof row === "string" ? row[c] : undefined);
+  if (typeof value === "string" && /^[A-Za-z]$/.test(value)) {
+    return value.toUpperCase();
+  }
+  if (value !== "#" && value !== undefined && value !== null && value !== "") {
+    console.warn("Invalid solution cell", { row: r, col: c, value });
+  }
+  return "";
+}
+
 function renderGrid() {
   const g = P.grid, grid = $("#grid");
   grid.innerHTML = ""; cells = {};
@@ -363,7 +376,7 @@ function revealClue(cl) {
   for (let i = 0; i < cl.cells.length; i++) {
     const [r,c] = cl.cells[i];
     const cell = cells[key(r,c)];
-    cell.inp.value = P.solution[r][c];
+    cell.inp.value = solutionAt(r, c);
     cell.div.classList.remove("wrong");
   }
   const clueEl = document.getElementById(cl.id);
@@ -384,7 +397,7 @@ function toggleRevealAll() {
   for (const k in cells) {
     allRevealSnapshot[k] = cells[k].inp.value;
     const {inp,r,c,div} = cells[k];
-    inp.value = P.solution[r][c];
+    inp.value = solutionAt(r, c);
     div.classList.remove("wrong");
   }
   if (sel) {
@@ -408,7 +421,7 @@ function check() {
   for (const k in cells) {
     const {inp,r,c,div} = cells[k];
     div.classList.remove("wrong");
-    if (inp.value && inp.value.toUpperCase() !== P.solution[r][c]) div.classList.add("wrong");
+    if (inp.value && inp.value.toUpperCase() !== solutionAt(r, c)) div.classList.add("wrong");
   }
 }
 
@@ -470,6 +483,13 @@ const asJson = r => { if (!r.ok) throw new Error(r.status + " " + r.url); return
 
 async function load(entry) {
   const base = BASE + entry.dir + "/";
+  // Reveal-all snapshots belong to the previously loaded puzzle.  Keeping
+  // one across a puzzle switch makes Hide all read keys that do not exist in
+  // the new grid and write the literal value "undefined" into cells.
+  allRevealSnapshot = null;
+  setRevealButtonsDisabled(false);
+  const revealAllButton = $("#revealAll");
+  if (revealAllButton) revealAllButton.textContent = "Reveal all";
   let grid, clues, solution;
   try {
     [grid, clues, solution] = await Promise.all([

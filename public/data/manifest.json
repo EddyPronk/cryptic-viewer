@@ -1,6 +1,12 @@
 {
   "puzzles": [
     {
+      "name": "the_age_20251222",
+      "label": "The Age — 22 Dec 2025",
+      "dir": "the_age_20251222",
+      "explanations": true
+    },
+    {
       "name": "the_age_20260622",
       "label": "The Age — 22 Jun 2026",
       "dir": "the_age_20260622",

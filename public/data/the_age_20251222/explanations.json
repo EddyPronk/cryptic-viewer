@@ -1,0 +1,157 @@
+{
+  "across-01": {
+    "answer": "CICADA",
+    "mechanism": "Anagram deletion",
+    "explanation": "<div><b>Definition:</b> AN INSECT</div>\n<ul><li>AACCDI (anagram) → CICADA</li><li>CICADA→ CICADA (6)</li><li>Verify: CICADA is wordplay for AN INSECT</li></ul>\n"
+  },
+  "across-04": {
+    "answer": "RADIUM",
+    "mechanism": "Cliptail",
+    "explanation": "<ul><li>the chain&#x27;s answer field gave RADIUM.</li></ul>\n"
+  },
+  "across-10,11": {
+    "answer": "FISHOUTOFWATER",
+    "mechanism": "Multiword anagram",
+    "explanation": "<ul><li>multi-word anagram of &#x27;IWOREAHOTSTUFF&#x27; (4, 3, 2, 5) -&gt; FISHOUTOFWATER; def &quot;like a person in the wrong place&quot;</li></ul>\n"
+  },
+  "across-12": {
+    "answer": "WIDOW",
+    "mechanism": "Letter deletion",
+    "explanation": "<div><b>Definition:</b> Her partner&#x27;s late</div>\n<ul><li>pass 1 (fixture:letter_deletion_partition) produced definition=&#x27;Her partner&#x27;s late&#x27;, letter=&#x27;n&#x27;, fodder=&#x27;window&#x27;.</li><li>the chain&#x27;s answer field gave WIDOW.</li></ul>\n"
+  },
+  "across-13": {
+    "answer": "HALFLIGHT",
+    "mechanism": "Letter selection",
+    "explanation": "<div><b>Definition:</b> dusk</div>\n<ul><li>plane trip at → FLIGHT</li><li>marshal finishes → HAL</li><li>HAL + FLIGHT → HALFLIGHT</li><li>HALFLIGHT→ HALF-LIGHT (4-5)</li><li>Verify: HALF-LIGHT is wordplay for DUSK</li></ul>\n"
+  },
+  "across-14": {
+    "answer": "INFURIATED",
+    "mechanism": "Substitution",
+    "explanation": "<div><b>Definition:</b> Incensed</div>\n<ul><li>substitution: INITIATED with &#x27;IT&#x27;-&gt;&#x27;FUR&#x27; -&gt; INFURIATED</li></ul>\n"
+  },
+  "across-17": {
+    "answer": "TIFF",
+    "mechanism": "Reversed hidden word",
+    "explanation": "<div><b>Indicator:</b> bit</div>\n<ul><li>a reversal indicator in the clue means the fodder is read backwards, not forwards.</li><li>reversing the clue&#x27;s letters and scanning for hidden words finds TIFF, the unique 4-letter dictionary fit once reversed.</li></ul>\n"
+  },
+  "across-20": {
+    "answer": "EURO",
+    "mechanism": "Homophoneparaphrase",
+    "explanation": "<div><b>Definition:</b> 100 cents in France</div>\n<ul><li>you water → EURO (homophone)</li><li>EURO→ EURO (4)</li><li>Verify: EURO is wordplay for 100 CENTS IN FRANCE</li></ul>\n"
+  },
+  "across-21": {
+    "answer": "SOOTHSAYER",
+    "mechanism": "Charade with named letters",
+    "explanation": "<ul><li>Charade: SOOTH (comfort) + SAYER (speaker)</li></ul>\n"
+  },
+  "across-23": {
+    "answer": "VOICEMAIL",
+    "mechanism": "Named deletion",
+    "explanation": "<div><b>Definition:</b> phone message</div>\n<ul><li>pass 1 (fixture:named_deletion_partition) produced derived_piece=&#x27;VOICE&#x27;, definition=&#x27;phone message&#x27;.</li><li>the chain&#x27;s answer field gave VOICEMAIL.</li></ul>\n"
+  },
+  "across-25": {
+    "answer": "TRILL",
+    "mechanism": "Insertion",
+    "explanation": "<div><b>Definition:</b> warble</div>\n<ul><li>insertion: R (romeo) into TILL (till) -&gt; TRILL; def &#x27;warble&#x27;</li></ul>\n"
+  },
+  "across-27": {
+    "answer": "PLUSH",
+    "mechanism": "Charade with named letters",
+    "explanation": "<ul><li>charade: PLUS+H -&gt; PLUSH; def &#x27;luxurious&#x27;</li></ul>\n"
+  },
+  "across-28": {
+    "answer": "INCURSION",
+    "mechanism": "Anagram",
+    "explanation": "<div><b>Definition:</b> about to make a sudden raid</div>\n<ul><li>there is no anagram indicator; the rearrangement is implicit (detected by letter count).</li><li>the letters of &#x27;UNICORNIS&#x27; rearrange to INCURSION, the only 9-letter dictionary word with exactly those letters.</li></ul>\n"
+  },
+  "across-29": {
+    "answer": "RHEBOK",
+    "mechanism": "Anagram",
+    "explanation": "<div><b>Definition:</b> antelope</div>\n<div><b>Indicator:</b> varieties</div>\n<ul><li>the letters of &#x27;OKHERB&#x27; rearrange to RHEBOK, the only 6-letter dictionary word with exactly those letters.</li></ul>\n"
+  },
+  "across-30": {
+    "answer": "SLICER",
+    "mechanism": "Anagram",
+    "explanation": "<div><b>Definition:</b> machine for cutting</div>\n<div><b>Indicator:</b> up</div>\n<ul><li>the letters of &#x27;RELICS&#x27; rearrange to SLICER, the only 6-letter dictionary word with exactly those letters.</li></ul>\n"
+  },
+  "down-01": {
+    "answer": "CASED",
+    "mechanism": "Double definition",
+    "explanation": "<div><b>Definition:</b> sussed out before the robbery</div>\n<ul><li>Container department → CASED</li><li>sussed out before the robbery → CASED</li><li>Both readings agree on CASED (5).</li><li>Verify: CASED is a double definition — both readings above independently point to the same word.</li></ul>\n"
+  },
+  "down-02": {
+    "answer": "COOKWARE",
+    "mechanism": "Homophone with dictionary check",
+    "explanation": "<div><b>Definition:</b> Pots and pans</div>\n<ul><li>cookwear → COOKWARE (homophone)</li><li>COOKWARE→ COOKWARE (8)</li><li>Verify: COOKWARE is wordplay for POTS AND PANS</li></ul>\n"
+  },
+  "down-03": {
+    "answer": "DITCH",
+    "mechanism": "Initialism charade",
+    "explanation": "<div><b>Definition:</b> Get rid of</div>\n<ul><li>selected initial → D</li><li>need to scratch → ITCH</li><li>D + ITCH → DITCH</li><li>DITCH→ DITCH (5)</li><li>Verify: DITCH is wordplay for GET RID OF</li></ul>\n"
+  },
+  "down-05": {
+    "answer": "ASWELL",
+    "mechanism": "Definition phrase",
+    "explanation": "<div><b>Definition:</b> also</div>\n<ul><li>&#x27;as well&#x27; is a real, corpus-attested phrase fitting the crossing pattern and enumeration.</li><li>&#x27;also&#x27; independently confirms it (recognition-pick over 3 crossing-fit phrase-pool candidates).</li></ul>\n"
+  },
+  "down-06": {
+    "answer": "INTEGRITY",
+    "mechanism": "Anagram",
+    "explanation": "<div><b>Definition:</b> probity</div>\n<div><b>Indicator:</b> uplifting</div>\n<ul><li>the letters of &#x27;TIRINGYET&#x27; rearrange to INTEGRITY, the only 9-letter dictionary word with exactly those letters.</li></ul>\n"
+  },
+  "down-07": {
+    "answer": "MERIT",
+    "mechanism": "Implicit hidden word",
+    "explanation": "<div><b>Definition:</b> worthiness</div>\n<ul><li>MERIT appears across clue-word boundaries in &#x27;likeformeritsupportbutnotforitsworthiness&#x27;.</li><li>The definition/category gate links MERIT with &#x27;worthiness&#x27; via &#x27;worthiness&#x27;.</li></ul>\n"
+  },
+  "down-08": {
+    "answer": "OFFWHITE",
+    "mechanism": "Charade phrase",
+    "explanation": "<ul><li>&#x27;tired&#x27; gives &#x27;off&#x27;.</li><li>&#x27;chardonnay&#x27; gives &#x27;white&#x27;.</li><li>Together they form the real phrase &#x27;OFF WHITE&#x27;, matching the enumeration.</li></ul>\n"
+  },
+  "down-09": {
+    "answer": "AFFLUENT",
+    "mechanism": "Charade",
+    "explanation": "<div><b>Definition:</b> the wealthy</div>\n<ul><li>A → A</li><li>(fixed abbreviation) → F</li><li>unfaltering → FLUENT</li><li>A + F + FLUENT → AFFLUENT</li><li>AFFLUENT→ AFFLUENT (8)</li><li>Verify: AFFLUENT is wordplay for THE WEALTHY</li></ul>\n"
+  },
+  "down-15": {
+    "answer": "FURNITURE",
+    "mechanism": "Anagram",
+    "explanation": "<div><b>Definition:</b> tables chairs</div>\n<div><b>Indicator:</b> fake</div>\n<ul><li>the letters of &#x27;TURFURINE&#x27; rearrange to FURNITURE, the only 9-letter dictionary word with exactly those letters.</li></ul>\n"
+  },
+  "down-16": {
+    "answer": "AROMATIC",
+    "mechanism": "Deletion charade",
+    "explanation": "<div><b>Definition:</b> Fragrant</div>\n<ul><li>ROMANTIC minus N → ROMATIC + A</li><li>ROMATIC + A → AROMATIC</li><li>AROMATIC→ AROMATIC (8)</li><li>Verify: AROMATIC is wordplay for FRAGRANT</li></ul>\n"
+  },
+  "down-18": {
+    "answer": "FARMLAND",
+    "mechanism": "Charade with named letters",
+    "explanation": "<ul><li>Charade: F (start of Firing) + ARM (weapon) + LAND (come down on)</li></ul>\n"
+  },
+  "down-19": {
+    "answer": "ESOTERIC",
+    "mechanism": "Implicit hidden word",
+    "explanation": "<div><b>Definition:</b> start being less abstruse</div>\n<ul><li>ESOTERIC appears across clue-word boundaries in &#x27;besotericstartbeinglessabstruse&#x27;.</li><li>The definition/category gate links ESOTERIC with &#x27;start being less abstruse&#x27; via &#x27;abstruse&#x27;.</li></ul>\n"
+  },
+  "down-22": {
+    "answer": "TECHNO",
+    "mechanism": "Positional deletion charade",
+    "explanation": "<div><b>Definition:</b> dance music</div>\n<ul><li>pass 1 (fixture:positional_deletion_charade_partition) produced definition=&#x27;dance music&#x27;, host=&#x27;teach&#x27;, letter=&#x27;a&#x27;, literal=&#x27;no&#x27;.</li><li>the chain&#x27;s answer field gave TECHNO.</li></ul>\n"
+  },
+  "down-23": {
+    "answer": "VIPER",
+    "mechanism": "Roman numeral swap",
+    "explanation": "<div><b>Definition:</b> snake</div>\n<ul><li>swapped numeral → VI</li><li>each → PER</li><li>VI + PER → VIPER</li><li>VIPER→ VIPER (5)</li><li>Verify: VIPER is wordplay for SNAKE</li></ul>\n"
+  },
+  "down-24": {
+    "answer": "LOCAL",
+    "mechanism": "Reverse clipping",
+    "explanation": "<ul><li>reverse-clip: LOCAL -&gt; low+calorie (split lo+cal, from clue head &#x27;Low-calorie&#x27;); def &#x27;pub&#x27; confirmed</li></ul>\n"
+  },
+  "down-26": {
+    "answer": "ICIER",
+    "mechanism": "Hidden word",
+    "explanation": "<div><b>Definition:</b> frozen</div>\n<div><b>Indicator:</b> bit</div>\n<ul><li>ICIER is hidden in the clue&#x27;s letters, inside &#x27;juicier&#x27;.</li><li>WordNet confirms &#x27;frozen&#x27; defines ICIER.</li></ul>\n"
+  }
+}
