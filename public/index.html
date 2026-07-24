@@ -73,6 +73,12 @@
   .clue.revealed .expl.has { display: block; }
   .expl b { color: var(--ink); }
   .expl ul { margin: 0; padding-left: 20px; }
+  .expl { position: relative; }
+  .expl .details-toggle {
+    position: absolute; top: 6px; right: 8px;
+    margin: 0; font-size: 12px; padding: 2px 8px;
+  }
+  .motivation-page { line-height: 1.55; padding-top: 22px; }
   .legend { font-size: 12px; color: var(--muted); margin-top: 10px; }
   @media (max-width: 600px) {
     body { padding: 8px; }
@@ -354,7 +360,31 @@ function renderClues() {
       t.appendChild(document.createElement("br"));
       const ex = document.createElement("div");
       ex.className = "expl" + (cl.expl ? " has":"") + (cl.explHtml ? " html":"");
-      if (cl.expl) ex.innerHTML = cl.explHtml ? cl.expl : escapeHtml(cl.expl);
+      if (cl.expl) {
+        const explanation = document.createElement("div");
+        explanation.className = "explanation-page";
+        explanation.innerHTML = cl.explHtml ? cl.expl : escapeHtml(cl.expl);
+        ex.appendChild(explanation);
+
+        const motivation = document.createElement("div");
+        motivation.className = "motivation-page";
+        motivation.hidden = true;
+        motivation.innerHTML = cl.details ||
+          "<b>Motivation unavailable</b><p>No evaluation details were exported for this clue.</p>";
+        ex.appendChild(motivation);
+
+        const details = document.createElement("button");
+        details.className = "details-toggle";
+        details.textContent = "Details";
+        details.addEventListener("click", ev => {
+          ev.stopPropagation();
+          const showing = !motivation.hidden;
+          motivation.hidden = showing;
+          explanation.hidden = !showing;
+          details.textContent = showing ? "Details" : "Explanation";
+        });
+        ex.appendChild(details);
+      }
       t.appendChild(ex);
       div.appendChild(n); div.appendChild(t); div.appendChild(rev);
       div.addEventListener("click", () => {
@@ -457,12 +487,13 @@ function formatExpl(o) {           // structured explanation object -> display t
 async function loadExplanations(base) {
   // Preferred: one explanations.json for the whole puzzle (a single request).
   try {
-    const r = await fetch(base + "explanations.json");
+    const r = await fetch(base + "explanations.json", { cache: "no-store" });
     if (r.ok) {
       const data = await r.json();
       for (const cl of clueList) {
         if (data[cl.slot]) {
           cl.expl = formatExpl(data[cl.slot]);
+          cl.details = data[cl.slot].details || "";
           cl.explHtml = true;
           P.explanations[cl.id] = cl.expl;
         }
