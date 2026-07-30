@@ -94,7 +94,7 @@
   <div class="sub" id="sub"></div>
   <div class="toolbar">
     <select id="puzzle"></select>
-    <button id="revealAll">Reveal all</button>
+    <button id="revealAll">Solved</button>
   </div>
   <div class="layout">
     <div class="gridwrap"><div id="grid"></div>
@@ -133,7 +133,8 @@ const REGISTRY = [
 /* ---- engine ---- */
 const $ = s => document.querySelector(s);
 const N = 15;
-let P, cells, runs, clueList, sel = null, showExpl = false, allRevealSnapshot = null;
+let P, cells, runs, clueList, sel = null, showExpl = false;
+let revealMode = "none";
 
 function isOpen(g, r, c) { return r>=0 && r<N && c>=0 && c<N && g[r][c] !== 99; }
 
@@ -350,7 +351,7 @@ function onInput(e) {
 function renderClues() {
   for (const dir of ["across","down"]) {
     const box = $("#"+dir); box.innerHTML = "";
-    for (const cl of clueList.filter(x=>x.dir===dir)) {
+    for (const cl of clueList.filter(x => x.dir === dir)) {
       const div = document.createElement("div");
       div.className = "clue"; div.id = cl.id;
       const n = document.createElement("span"); n.className="n"; n.textContent=cl.label;
@@ -391,7 +392,8 @@ function renderClues() {
         const clueEl = document.getElementById(cl.id);
         const wasRevealed = clueEl && clueEl.classList.contains("revealed");
         selectClue(cl, false);
-        if (allRevealSnapshot && clueEl && !wasRevealed) {
+        if ((revealMode === "all" || revealMode === "solutions") &&
+            clueEl && !wasRevealed) {
           clueEl.classList.add("revealed");
         }
       });
@@ -414,19 +416,35 @@ function revealClue(cl) {
 }
 function toggleRevealAll() {
   const button = $("#revealAll");
-  if (allRevealSnapshot) {
-    for (const k in cells) cells[k].inp.value = allRevealSnapshot[k];
-    allRevealSnapshot = null;
-    document.querySelectorAll(".clue.revealed").forEach(e => e.classList.remove("revealed"));
-    clueList.forEach(cl => delete cl.revealedValues);
-    setRevealButtonsDisabled(false);
-    if (button) button.textContent = "Reveal all";
+  if (revealMode === "all" || revealMode === "solutions") {
+    hideAllCells();
+    if (revealMode === "all") {
+      revealMode = "none";
+      if (button) button.textContent = "Solved";
+      renderClues();
+      return;
+    }
+    revealMode = "all";
+    revealAllCells();
+    if (button) button.textContent = "Hide all";
+    renderClues();
     return;
   }
-  allRevealSnapshot = {};
-  for (const k in cells) {
-    allRevealSnapshot[k] = cells[k].inp.value;
-    const {inp,r,c,div} = cells[k];
+
+  revealMode = button && button.textContent === "Solved" ? "solutions" : "all";
+  if (revealMode === "solutions") {
+    showSolutions();
+    if (button) button.textContent = "Reveal all";
+  } else {
+    revealAllCells();
+    if (button) button.textContent = "Hide all";
+  }
+  renderClues();
+  setRevealButtonsDisabled(true);
+}
+
+function revealAllCells() {
+  for (const {inp, r, c, div} of Object.values(cells)) {
     inp.value = solutionAt(r, c);
     div.classList.remove("wrong");
   }
@@ -434,8 +452,33 @@ function toggleRevealAll() {
     const selectedClue = document.getElementById(sel.id);
     if (selectedClue) selectedClue.classList.add("revealed");
   }
-  setRevealButtonsDisabled(true);
-  if (button) button.textContent = "Hide all";
+}
+
+function showSolutions() {
+  // An exported explanation marks the clues for which a solution is available.
+  for (const {inp, div} of Object.values(cells)) {
+    inp.value = "";
+    div.classList.remove("wrong");
+  }
+  for (const cl of clueList) {
+    if (!cl.expl) continue;
+    for (const [r, c] of cl.cells) {
+      const cell = cells[key(r, c)];
+      cell.inp.value = solutionAt(r, c);
+      cell.div.classList.remove("wrong");
+    }
+  }
+}
+
+function hideAllCells() {
+  // Hide all means no answer letters are rendered.
+  for (const {inp, div} of Object.values(cells)) {
+    inp.value = "";
+    div.classList.remove("wrong");
+  }
+  document.querySelectorAll(".clue.revealed").forEach(e => e.classList.remove("revealed"));
+  clueList.forEach(cl => delete cl.revealedValues);
+  setRevealButtonsDisabled(false);
 }
 
 function setRevealButtonsDisabled(disabled) {
@@ -514,13 +557,11 @@ const asJson = r => { if (!r.ok) throw new Error(r.status + " " + r.url); return
 
 async function load(entry) {
   const base = BASE + entry.dir + "/";
-  // Reveal-all snapshots belong to the previously loaded puzzle.  Keeping
-  // one across a puzzle switch makes Hide all read keys that do not exist in
-  // the new grid and write the literal value "undefined" into cells.
-  allRevealSnapshot = null;
+  // Bulk-view state belongs to the previously loaded puzzle.
+  revealMode = "none";
   setRevealButtonsDisabled(false);
   const revealAllButton = $("#revealAll");
-  if (revealAllButton) revealAllButton.textContent = "Reveal all";
+  if (revealAllButton) revealAllButton.textContent = "Solved";
   let grid, clues, solution;
   try {
     [grid, clues, solution] = await Promise.all([
@@ -549,8 +590,8 @@ function applyExpl() {
 }
 
 function closeRevealedExplanations() {
-  if (allRevealSnapshot) {
-    // Reveal-all letters remain on the grid and reveal-all mode stays active.
+  if (revealMode === "all" || revealMode === "solutions") {
+    // Bulk-view letters remain on the grid and the current mode stays active.
     document.querySelectorAll(".clue.revealed").forEach(e => e.classList.remove("revealed"));
     return;
   }
@@ -567,7 +608,7 @@ function closeRevealedExplanations() {
 
 function handleGridClick() {
   closeRevealedExplanations();
-  if (allRevealSnapshot && sel) {
+  if ((revealMode === "all" || revealMode === "solutions") && sel) {
     const clue = document.getElementById(sel.id);
     if (clue) clue.classList.add("revealed");
   }
