@@ -1,37 +1,255 @@
 {
   "across": [
-    {"number": 1, "clue": "Another academic? Not me I'm an insect (6)"},
-    {"number": 4, "clue": "Element in a superficially radioactive medium (6)"},
-    {"number": "10,11", "clue": "I wore a Hot Stuff outfit like a person in the wrong place! (4,3,2,5)"},
-    {"number": 12, "clue": "Her partner's late - last seen from the window (5)"},
-    {"number": 13, "clue": "Marshal finishes plane trip at dusk (4-5)"},
-    {"number": 14, "clue": "Incensed the initiated by replacing it with fur (10)"},
-    {"number": 17, "clue": "Bit of a quarrel over stuff in graffiti (4)"},
-    {"number": 20, "clue": "Heard you use oars for 100 cents in France (4)"},
-    {"number": 21, "clue": "Fortune teller can comfort non-English speaker (10)"},
-    {"number": 23, "clue": "Mail invoice first but don't mention in phone message (9)"},
-    {"number": 25, "clue": "Warble till Romeo joins in (5)"},
-    {"number": 27, "clue": "Luxurious as well as hard (5)"},
-    {"number": 28, "clue": "Unicorn is about to make a sudden raid (9)"},
-    {"number": 29, "clue": "Antelope OK with herb varieties (6)"},
-    {"number": 30, "clue": "Machine for cutting up relics (6)"}
+    {
+      "id": "across-1",
+      "number": "1",
+      "runs": [
+        "1"
+      ],
+      "clue": "Another academic? Not me I'm an insect (6)"
+    },
+    {
+      "id": "across-4",
+      "number": "4",
+      "runs": [
+        "4"
+      ],
+      "clue": "Element in a superficially radioactive medium (6)"
+    },
+    {
+      "id": "across-10-11",
+      "number": "10,11",
+      "runs": [
+        "10",
+        "11"
+      ],
+      "clue": "I wore a Hot Stuff outfit like a person in the wrong place! (4,3,2,5)"
+    },
+    {
+      "id": "across-12",
+      "number": "12",
+      "runs": [
+        "12"
+      ],
+      "clue": "Her partner's late - last seen from the window (5)"
+    },
+    {
+      "id": "across-13",
+      "number": "13",
+      "runs": [
+        "13"
+      ],
+      "clue": "Marshal finishes plane trip at dusk (4-5)"
+    },
+    {
+      "id": "across-14",
+      "number": "14",
+      "runs": [
+        "14"
+      ],
+      "clue": "Incensed the initiated by replacing it with fur (10)"
+    },
+    {
+      "id": "across-17",
+      "number": "17",
+      "runs": [
+        "17"
+      ],
+      "clue": "Bit of a quarrel over stuff in graffiti (4)"
+    },
+    {
+      "id": "across-20",
+      "number": "20",
+      "runs": [
+        "20"
+      ],
+      "clue": "Heard you use oars for 100 cents in France (4)"
+    },
+    {
+      "id": "across-21",
+      "number": "21",
+      "runs": [
+        "21"
+      ],
+      "clue": "Fortune teller can comfort non-English speaker (10)"
+    },
+    {
+      "id": "across-23",
+      "number": "23",
+      "runs": [
+        "23"
+      ],
+      "clue": "Mail invoice first but don't mention in phone message (9)"
+    },
+    {
+      "id": "across-25",
+      "number": "25",
+      "runs": [
+        "25"
+      ],
+      "clue": "Warble till Romeo joins in (5)"
+    },
+    {
+      "id": "across-27",
+      "number": "27",
+      "runs": [
+        "27"
+      ],
+      "clue": "Luxurious as well as hard (5)"
+    },
+    {
+      "id": "across-28",
+      "number": "28",
+      "runs": [
+        "28"
+      ],
+      "clue": "Unicorn is about to make a sudden raid (9)"
+    },
+    {
+      "id": "across-29",
+      "number": "29",
+      "runs": [
+        "29"
+      ],
+      "clue": "Antelope OK with herb varieties (6)"
+    },
+    {
+      "id": "across-30",
+      "number": "30",
+      "runs": [
+        "30"
+      ],
+      "clue": "Machine for cutting up relics (6)"
+    }
   ],
   "down": [
-    {"number": 1, "clue": "Container department is sussed out before the robbery (5)"},
-    {"number": 2, "clue": "Pots and pans and outfits for the chef, say (8)"},
-    {"number": 3, "clue": "Get rid of that first desperate need to scratch (5)"},
-    {"number": 5, "clue": "A wealthy old American also (2,4)"},
-    {"number": 6, "clue": "Probity is tiring yet uplifting (9)"},
-    {"number": 7, "clue": "Like former IT support but not for its worthiness (5)"},
-    {"number": 8, "clue": "Tired of Chardonnay? Have cream perhaps? (3-5)"},
-    {"number": 9, "clue": "A loud unfaltering explanation from the wealthy (8)"},
-    {"number": 15, "clue": "Tables, chairs, fake turf and urine (9)"},
-    {"number": 16, "clue": "Fragrant and a little less fanciful (8)"},
-    {"number": 18, "clue": "Start firing weapon and come down on pastoral plots (8)"},
-    {"number": 19, "clue": "Besot Eric, start being less abstruse (8)"},
-    {"number": 22, "clue": "Teach less first aid and no dance music (6)"},
-    {"number": 23, "clue": "Swap four for each snake (5)"},
-    {"number": 24, "clue": "Low-calorie pub (5)"},
-    {"number": 26, "clue": "More frozen but a bit juicier (5)"}
+    {
+      "id": "down-1",
+      "number": "1",
+      "runs": [
+        "1"
+      ],
+      "clue": "Container department is sussed out before the robbery (5)"
+    },
+    {
+      "id": "down-2",
+      "number": "2",
+      "runs": [
+        "2"
+      ],
+      "clue": "Pots and pans and outfits for the chef, say (8)"
+    },
+    {
+      "id": "down-3",
+      "number": "3",
+      "runs": [
+        "3"
+      ],
+      "clue": "Get rid of that first desperate need to scratch (5)"
+    },
+    {
+      "id": "down-5",
+      "number": "5",
+      "runs": [
+        "5"
+      ],
+      "clue": "A wealthy old American also (2,4)"
+    },
+    {
+      "id": "down-6",
+      "number": "6",
+      "runs": [
+        "6"
+      ],
+      "clue": "Probity is tiring yet uplifting (9)"
+    },
+    {
+      "id": "down-7",
+      "number": "7",
+      "runs": [
+        "7"
+      ],
+      "clue": "Like former IT support but not for its worthiness (5)"
+    },
+    {
+      "id": "down-8",
+      "number": "8",
+      "runs": [
+        "8"
+      ],
+      "clue": "Tired of Chardonnay? Have cream perhaps? (3-5)"
+    },
+    {
+      "id": "down-9",
+      "number": "9",
+      "runs": [
+        "9"
+      ],
+      "clue": "A loud unfaltering explanation from the wealthy (8)"
+    },
+    {
+      "id": "down-15",
+      "number": "15",
+      "runs": [
+        "15"
+      ],
+      "clue": "Tables, chairs, fake turf and urine (9)"
+    },
+    {
+      "id": "down-16",
+      "number": "16",
+      "runs": [
+        "16"
+      ],
+      "clue": "Fragrant and a little less fanciful (8)"
+    },
+    {
+      "id": "down-18",
+      "number": "18",
+      "runs": [
+        "18"
+      ],
+      "clue": "Start firing weapon and come down on pastoral plots (8)"
+    },
+    {
+      "id": "down-19",
+      "number": "19",
+      "runs": [
+        "19"
+      ],
+      "clue": "Besot Eric, start being less abstruse (8)"
+    },
+    {
+      "id": "down-22",
+      "number": "22",
+      "runs": [
+        "22"
+      ],
+      "clue": "Teach less first aid and no dance music (6)"
+    },
+    {
+      "id": "down-23",
+      "number": "23",
+      "runs": [
+        "23"
+      ],
+      "clue": "Swap four for each snake (5)"
+    },
+    {
+      "id": "down-24",
+      "number": "24",
+      "runs": [
+        "24"
+      ],
+      "clue": "Low-calorie pub (5)"
+    },
+    {
+      "id": "down-26",
+      "number": "26",
+      "runs": [
+        "26"
+      ],
+      "clue": "More frozen but a bit juicier (5)"
+    }
   ]
 }
