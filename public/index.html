@@ -161,15 +161,24 @@ function buildClues() {
   clueList = [];
   for (const dir of ["across","down"]) {
     for (const cl of P.clues[dir]) {
-      const nums = String(cl.number).split(",").map(s=>parseInt(s,10));
+      // New exports provide display text and run references separately.
+      // Fall back to the old number-only shape until all exports are rebuilt.
+      const runNumbers = (Array.isArray(cl.runs) ? cl.runs :
+        String(cl.number).split(",")).map(String);
       let cellsList = [];
-      for (const n of nums) {
+      for (const n of runNumbers) {
         const run = runs[dir][n];
         if (run) cellsList = cellsList.concat(run);
       }
-      clueList.push({ id: (dir==="across"?"A":"D")+nums[0], dir, nums, label: String(cl.number),
+      const legacyId = (dir === "across" ? "A" : "D") + runNumbers[0];
+      const slot = dir + "-" + runNumbers
+        .map(n => String(n).padStart(2,"0")).join(",");
+      clueList.push({ id: cl.id || legacyId, dir, runs: runNumbers,
+        label: String(cl.number),
         text: cl.clue, cells: cellsList,
-        slot: dir + "-" + String(nums[0]).padStart(2,"0"),  // explanation filename stem
+        // Consolidated explanation exports use the complete linked key.
+        slot,
+        legacySlot: dir + "-" + String(runNumbers[0]).padStart(2,"0"),
         expl: null, explHtml: false });
     }
   }
@@ -534,9 +543,10 @@ async function loadExplanations(base) {
     if (r.ok) {
       const data = await r.json();
       for (const cl of clueList) {
-        if (data[cl.slot]) {
-          cl.expl = formatExpl(data[cl.slot]);
-          cl.details = data[cl.slot].details || "";
+        const solution = data[cl.slot] || data[cl.legacySlot];
+        if (solution) {
+          cl.expl = formatExpl(solution);
+          cl.details = solution.details || "";
           cl.explHtml = true;
           P.explanations[cl.id] = cl.expl;
         }
@@ -547,7 +557,10 @@ async function loadExplanations(base) {
   // Fallback: probe explanation/<slot>.md per clue (legacy puzzles-ng layout).
   await Promise.all(clueList.map(async cl => {
     try {
-      const r = await fetch(base + "explanation/" + cl.slot + ".md");
+      let r = await fetch(base + "explanation/" + cl.slot + ".md");
+      if (!r.ok && cl.legacySlot !== cl.slot) {
+        r = await fetch(base + "explanation/" + cl.legacySlot + ".md");
+      }
       if (r.ok) { cl.expl = parseExpl(await r.text()); P.explanations[cl.id] = cl.expl; }
     } catch (e) { /* explanation is optional */ }
   }));
