@@ -112,8 +112,8 @@
    by data/manifest.json, each puzzle a dir of grid/clues/solution/explanations
    .json. This is what GitHub Pages serves — no path escapes public/.
    Fallback: if data/manifest.json is absent, read today's live puzzles-ng/ tree
-   (up two levels to the repo root) with per-file explanation/<slot>.md. Lets the
-   viewer keep working before the producer has exported anything.
+   (up two levels to the repo root). Lets the viewer keep working before the
+   producer has exported anything.
    Requires serving over http:// (fetch() is blocked under file://). */
 const EXPORT_BASE = "data/";   // producer's export, relative to public/ (preferred)
 const LEGACY_BASE = "../../";  // repo root, relative to public/ (fallback source)
@@ -502,18 +502,6 @@ function check() {
   }
 }
 
-function parseExpl(md) {            // extract the labelled fields from an explanation .md
-  const get = k => { const m = md.match(new RegExp("^" + k + ":\\s*(.*)$", "m")); return m ? m[1].trim() : ""; };
-  const answer = get("Answer"), mech = get("Mechanism"),
-        def = get("Definition"), fod = get("Fodder"), exp = get("Explanation");
-  return [
-    [answer, mech].filter(Boolean).join(" · "),
-    def && "Definition: " + def,
-    fod && "Fodder: " + fod,
-    exp
-  ].filter(Boolean).join("\n");
-}
-
 function escapeHtml(text) {
   const div = document.createElement("div");
   div.textContent = text;
@@ -548,14 +536,7 @@ async function loadExplanations(base) {
       }
       return;
     }
-  } catch (e) { /* fall through to legacy */ }
-  // Fallback: probe explanation/<slot>.md per clue (legacy puzzles-ng layout).
-  await Promise.all(clueList.map(async cl => {
-    try {
-      const r = await fetch(base + "explanation/" + cl.slot + ".md");
-      if (r.ok) { cl.expl = parseExpl(await r.text()); P.explanations[cl.id] = cl.expl; }
-    } catch (e) { /* explanation is optional */ }
-  }));
+  } catch (e) { /* explanations are optional */ }
 }
 
 const asJson = r => { if (!r.ok) throw new Error(r.status + " " + r.url); return r.json(); };
